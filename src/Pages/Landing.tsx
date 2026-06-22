@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Network,
@@ -8,6 +8,8 @@ import {
   UserCog,
   Globe,
   Fingerprint,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 // 1. Import your images from the assets folder here:
@@ -15,47 +17,93 @@ import desktopImg from "../assets/desktop.png";
 import mobileImg from "../assets/mobile.png";
 import arrow from "../assets/arrow.webp";
 
+import logo1 from "../assets/19.png";
+import logo2 from "../assets/20.png";
+import logo3 from "../assets/21.png";
+import logo4 from "../assets/22.png";
+import logo5 from "../assets/23.png";
+
+const logoSlides = [logo1, logo2, logo3, logo4, logo5];
+
 // MLM Features Data
 const mlmFeatures = [
   {
-    title: "MLM योजना मैनेजमेंट",
+    title: "स्ट्रेटेजिक मार्केटिंग प्लानिंग",
     description:
-      "एक कस्टम सॉफ़्टवेयर जो बाइनरी, मैट्रिक्स, यूनीलेवल, बोर्ड और जनरेशन जैसे सभी प्लान्स को सपोर्ट करता है।",
+      "आपके बिज़नेस की ग्रोथ और लक्ष्यों को हासिल करने के लिए एक डेटा-आधारित और कस्टमाइज़्ड मार्केटिंग रणनीति तैयार करना।",
     icon: <Network className="w-8 h-8" />,
   },
   {
-    title: "कमीशन और बोनस सिस्टम",
+    title: "टार्गेटेड एडवरटाइजिंग",
     description:
-      "डायरेक्ट इनकम, लेवल इनकम, मैचिंग बोनस और लीडरशिप बोनस आदि की बिल्कुल सटीक और ऑटोमैटिक कैलकुलेशन।",
+      "सही ऑडियंस (ग्राहकों) तक सही समय पर विज्ञापन पहुँचाकर आपके बिज़नेस के लिए बेहतरीन ROI (रिटर्न ऑन इन्वेस्टमेंट) सुनिश्चित करना।",
     icon: <Banknote className="w-8 h-8" />,
   },
   {
-    title: "ई-वॉलेट इंटीग्रेशन",
+    title: "सोशल मीडिया मैनेजमेंट",
     description:
-      "आसान फंड ट्रांसफर, विड्रॉल (निकासी) और ट्रांजेक्शन ट्रैकिंग के लिए एक बेहद सुरक्षित ई-वॉलेट सिस्टम।",
+      "विभिन्न सोशल मीडिया प्लेटफॉर्म्स पर आपके ब्रांड की ऑनलाइन प्रेजेंस को मजबूत करना और कस्टमर एंगेजमेंट बढ़ाना।",
     icon: <Wallet className="w-8 h-8" />,
   },
   {
-    title: "मेंबर डैशबोर्ड",
+    title: "एसईओ और कंटेंट क्रिएशन",
     description:
-      "एक यूज़र-फ्रेंडली डैशबोर्ड जहाँ मेंबर अपनी कमाई, नेटवर्क (Genealogy) और डाउनलाइन की परफॉरमेंस को आसानी से ट्रैक कर सकते हैं।",
+      "वैल्युएबल कंटेंट और सर्च इंजन ऑप्टिमाइजेशन (SEO) तकनीक के जरिए गूगल पर आपकी वेबसाइट की रैंकिंग और ऑर्गेनिक ट्रैफिक बढ़ाना।",
     icon: <LayoutDashboard className="w-8 h-8" />,
   },
   {
-    title: "एडमिन कंट्रोल पैनल",
+    title: "डेटा एनालिटिक्स और रिपोर्टिंग",
     description:
-      "यूज़र्स, कमीशन, पेआउट्स, रिपोर्ट्स और सेटिंग्स को आसानी से मैनेज करने के लिए एडमिन के पास पूरा कंट्रोल।",
+      "सभी मार्केटिंग कैंपेन्स की परफॉरमेंस को ट्रैक करना और डेटा के आधार पर पारदर्शी (Transparent) रिजल्ट्स की रिपोर्ट देना।",
     icon: <UserCog className="w-8 h-8" />,
   },
   {
-    title: "रेप्लिकेटेड वेबसाइट्स",
+    title: "ब्रांड डेवलपमेंट",
     description:
-      "MLM बिज़नेस को प्रमोट करने के लिए हर डिस्ट्रीब्यूटर को दी जाने वाली एक पर्सनलाइज़्ड (व्यक्तिगत) वेबसाइट।",
+      "आपके बिज़नेस को एक यूनीक पहचान देना ताकि वह मार्केट में एक भरोसेमंद और जाना-माना ब्रांड बन सके।",
     icon: <Globe className="w-8 h-8" />,
   },
 ];
 
 function Landing() {
+  // --- Logo Carousel State & Logic ---
+  const [currentLogoSlide, setCurrentLogoSlide] = useState(0);
+  const [itemsToShow, setItemsToShow] = useState(2);
+
+  // Handle Responsive layout for Logo Carousel
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Navigation Handlers for Arrows
+  const nextSlide = () => {
+    setCurrentLogoSlide((prev) =>
+      prev >= logoSlides.length - itemsToShow ? 0 : prev + 1,
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentLogoSlide((prev) =>
+      prev <= 0 ? logoSlides.length - itemsToShow : prev - 1,
+    );
+  };
+
+  // --- NEW: Auto-slide logic for the logo carousel ---
+  useEffect(() => {
+    const logoInterval = setInterval(() => {
+      setCurrentLogoSlide((prev) =>
+        prev >= logoSlides.length - itemsToShow ? 0 : prev + 1,
+      );
+    }, 3000); // 3000ms = 3 seconds per slide
+
+    return () => clearInterval(logoInterval); // Cleanup interval on unmount
+  }, [itemsToShow]);
+
   const navigate = useNavigate();
 
   // --- Handlers & Other Logic ---
@@ -146,19 +194,74 @@ function Landing() {
           </div>
         </section>
 
+        {/* --- PARTNERS / LOGO CAROUSEL SECTION (WITH ARROWS) --- */}
+        <section className="container mx-auto px-4 sm:px-6 pt-12 sm:pt-16 relative z-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest">
+              Featured In & Trusted By
+            </h3>
+          </div>
+
+          {/* Carousel Wrapper: मोबाइल में px-6 किया गया ताकि लोगो को जगह मिले */}
+          <div className="max-w-6xl mx-auto relative px-6 sm:px-12">
+            {/* Left Arrow Button: मोबाइल में पैडिंग और साइज कम किया गया */}
+            <button
+              onClick={prevSlide}
+              className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
+              aria-label="Previous Slide"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 transition-transform group-hover:-translate-x-0.5" />
+            </button>
+
+            {/* Carousel Window */}
+            <div className="overflow-hidden w-full">
+              <div
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{
+                  transform: `translateX(-${
+                    currentLogoSlide * (100 / itemsToShow)
+                  }%)`,
+                }}
+              >
+                {logoSlides.map((logo, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 px-2 sm:px-4"
+                    style={{ width: `${100 / itemsToShow}%` }}
+                  >
+                    <div className="bg-white rounded-2xl p-2 sm:p-5 lg:p-8 flex items-center justify-center h-28 sm:h-40 md:h-48 lg:h-56 shadow-[0_4px_20px_rgba(255,255,255,0.05)] hover:shadow-[0_4px_20px_rgba(45,212,191,0.3)] transition-shadow duration-300">
+                      <img
+                        src={logo}
+                        alt={`Partner ${index + 1}`}
+                        className="max-w-full max-h-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Arrow Button: मोबाइल में पैडिंग और साइज कम किया गया */}
+            <button
+              onClick={nextSlide}
+              className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
+              aria-label="Next Slide"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 transition-transform group-hover:translate-x-0.5" />
+            </button>
+          </div>
+        </section>
+
         {/* --- MLM FEATURES CARD SECTION --- */}
         <section className="container mx-auto px-4 sm:px-6 pt-12 pb-16 relative z-20">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 font-display text-white tracking-tight">
-              हमारे सॉफ़्टवेयर{" "}
+              मार्केटिंग{" "}
               <span className="text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
-                की विशेषताएँ
+                फीचर्स
               </span>
             </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              आपके डायरेक्ट सेल्स व्यवसाय को प्रबंधित करने के लिए संपूर्ण
-              सॉफ़्टवेयर समाधान।
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
@@ -182,7 +285,6 @@ function Landing() {
         </section>
 
         {/* CTA Section */}
-        {/* CTA Section */}
         <section className="container mx-auto pt-16 pb-24 sm:pb-32 px-4 sm:px-6 relative z-20">
           <div className="relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden bg-[#0f172a] border border-teal-500/20 shadow-2xl backdrop-blur-3xl group transition-all duration-500 hover:border-teal-500/50">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.15),transparent_50%)]"></div>
@@ -190,7 +292,6 @@ function Landing() {
             <div className="relative z-10 p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
               {/* Text Content */}
               <div className="w-full flex-1 text-center lg:text-left overflow-hidden">
-                {/* Responsive Fix: Wraps on mobile, stays on one line on medium screens and up */}
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black mb-3 md:mb-4 text-white leading-tight whitespace-normal md:whitespace-nowrap">
                   Get More Info With Your{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-300 block sm:inline mt-1 sm:mt-0">
