@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Network,
   Banknote,
@@ -104,14 +103,9 @@ function Landing() {
     return () => clearInterval(logoInterval); // Cleanup interval on unmount
   }, [itemsToShow]);
 
-  const navigate = useNavigate();
-
-  // --- Handlers & Other Logic ---
-  const handleJoinClick = (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLAnchorElement>,
-  ) => {
-    if (e) e.preventDefault();
-
+  // --- Tracking Logic for WhatsApp Clicks ---
+  const handleWhatsAppClick = () => {
+    // We removed e.preventDefault() so the <a> tag naturally opens the WhatsApp link
     if (typeof window !== "undefined") {
       const win = window as Window & {
         fbq?: (action: string, eventName: string) => void;
@@ -121,8 +115,6 @@ function Landing() {
         win.fbq("track", "Lead");
       }
     }
-
-    navigate("/form");
   };
 
   // Scroll animation logic for roadmap boxes
@@ -171,11 +163,13 @@ function Landing() {
               fetchPriority="high"
             />
             <a
-              href="/form"
-              onClick={handleJoinClick}
+              href="https://wa.me/447412812865"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleWhatsAppClick}
               className="absolute hidden md:block cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
               style={{ top: "80%", left: "1.7%", width: "35%", height: "13%" }}
-              aria-label="Access Form"
+              aria-label="Contact on WhatsApp"
             ></a>
 
             <img
@@ -185,11 +179,13 @@ function Landing() {
               fetchPriority="high"
             />
             <a
-              href="/form"
-              onClick={handleJoinClick}
+              href="https://wa.me/447412812865"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleWhatsAppClick}
               className="absolute block md:hidden cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
               style={{ top: "42%", left: "15%", width: "70%", height: "9%" }}
-              aria-label="Access Form"
+              aria-label="Contact on WhatsApp"
             ></a>
           </div>
         </section>
@@ -202,9 +198,7 @@ function Landing() {
             </h3>
           </div>
 
-          {/* Carousel Wrapper: मोबाइल में px-6 किया गया ताकि लोगो को जगह मिले */}
           <div className="max-w-6xl mx-auto relative px-6 sm:px-12">
-            {/* Left Arrow Button: मोबाइल में पैडिंग और साइज कम किया गया */}
             <button
               onClick={prevSlide}
               className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
@@ -213,7 +207,6 @@ function Landing() {
               <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 transition-transform group-hover:-translate-x-0.5" />
             </button>
 
-            {/* Carousel Window */}
             <div className="overflow-hidden w-full">
               <div
                 className="flex transition-transform duration-700 ease-in-out"
@@ -242,7 +235,6 @@ function Landing() {
               </div>
             </div>
 
-            {/* Right Arrow Button: मोबाइल में पैडिंग और साइज कम किया गया */}
             <button
               onClick={nextSlide}
               className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
@@ -315,19 +307,22 @@ function Landing() {
 
               {/* CTA BUTTON AREA */}
               <div className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end mt-2 lg:mt-0">
-                <div
-                  onClick={handleJoinClick}
-                  className="relative w-full sm:w-auto cursor-pointer group"
+                <a
+                  href="https://wa.me/447412812865"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleWhatsAppClick}
+                  className="relative w-full sm:w-auto cursor-pointer group block"
                 >
                   <div className="absolute -inset-5 z-0 rounded-[2rem]"></div>
-                  <button className="relative z-10 w-full sm:w-auto bg-teal-500 text-white hover:bg-teal-400 px-6 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all transform group-hover:scale-[1.03] active:scale-95 overflow-hidden pointer-events-none">
+                  <div className="relative z-10 w-full sm:w-auto bg-teal-500 text-white hover:bg-teal-400 px-6 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all transform group-hover:scale-[1.03] active:scale-95 overflow-hidden pointer-events-none">
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out z-0"></div>
                     <Fingerprint className="text-2xl md:text-3xl w-6 h-6 sm:w-8 sm:h-8 shrink-0 group-hover:-rotate-12 transition-transform relative z-10" />
                     <span className="text-[14px] sm:text-[16px] md:text-lg font-bold uppercase tracking-wider whitespace-nowrap relative z-10 leading-tight">
                       Whatsapp Channel
                     </span>
-                  </button>
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
