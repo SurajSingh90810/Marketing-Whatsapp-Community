@@ -168,13 +168,13 @@ function Landing() {
               src={desktopImg}
               fetchPriority="high"
             />
-            {/* ✅ Updated Link */}
+            {/* ✅ Updated Link (Added active:bg-white/20 for explicit click feedback) */}
             <a
               href="/form"
               onClick={handleWhatsAppClick}
-              className="absolute hidden md:block cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
-              style={{ top: "80%", left: "1.7%", width: "35%", height: "13%" }}
-              aria-label="Go to Form"
+              className="absolute hidden md:block cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/20 transition-colors duration-200 rounded-2xl"
+              style={{ top: "79%", left: "1.7%", width: "31%", height: "11%" }}
+              aria-label="Contact on WhatsApp"
             ></a>
 
             <img
@@ -183,12 +183,12 @@ function Landing() {
               src={mobileImg}
               fetchPriority="high"
             />
-            {/* ✅ Updated Link */}
+            {/* ✅ Updated Link (Added active:bg-white/30 and removed default mobile tap highlight for clear white flash effect) */}
             <a
               href="/form"
               onClick={handleWhatsAppClick}
-              className="absolute block md:hidden cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
-              style={{ top: "42%", left: "15%", width: "70%", height: "9%" }}
+              className="absolute block md:hidden cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/30 transition-colors duration-200 rounded-2xl"
+              style={{ top: "33%", left: "22%", width: "56%", height: "8%" }}
               aria-label="Go to Form"
             ></a>
           </div>
@@ -313,10 +313,12 @@ function Landing() {
                   href="/form"
                   onClick={handleWhatsAppClick}
                   className="relative w-full sm:w-auto cursor-pointer group block"
+                  style={{ WebkitTapHighlightColor: "transparent" }}
                 >
                   <div className="absolute -inset-5 z-0 rounded-[2rem]"></div>
                   <div className="relative z-10 w-full sm:w-auto bg-teal-500 text-white hover:bg-teal-400 px-6 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all transform group-hover:scale-[1.03] active:scale-95 overflow-hidden pointer-events-none">
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out z-0"></div>
+                    {/* ✅ Added `group-active` so the shine triggers on mobile tap too */}
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full group-active:translate-x-full transition-transform duration-1000 ease-in-out z-0"></div>
                     <Fingerprint className="text-2xl md:text-3xl w-6 h-6 sm:w-8 sm:h-8 shrink-0 group-hover:-rotate-12 transition-transform relative z-10" />
                     <span className="text-[14px] sm:text-[16px] md:text-lg font-bold uppercase tracking-wider whitespace-nowrap relative z-10 leading-tight">
                       Whatsapp Channel
