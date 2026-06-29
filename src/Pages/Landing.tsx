@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Imported useNavigate
 import {
   Network,
   Banknote,
@@ -41,7 +42,7 @@ const mlmFeatures = [
   {
     title: "सोशल मीडिया मैनेजमेंट",
     description:
-      "विभिन्न सोशल मीडिया प्लेटफॉर्म्स पर आपके ब्रांड की ऑनलाइन प्रेजेंस को मजबूत करना और कस्टमर एंगेजमेंट बढ़ाना।",
+      "विभिन्न सोशल मीडिया प्लेटफॉर्म्स पर आपके ब्रांड की online प्रेजेंस को मजबूत करना और कस्टमर एंगेजमेंट बढ़ाना।",
     icon: <Wallet className="w-8 h-8" />,
   },
   {
@@ -65,6 +66,8 @@ const mlmFeatures = [
 ];
 
 function Landing() {
+  const navigate = useNavigate(); // ✅ Initialize navigation
+
   // --- Logo Carousel State & Logic ---
   const [currentLogoSlide, setCurrentLogoSlide] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(2);
@@ -92,20 +95,21 @@ function Landing() {
     );
   };
 
-  // --- NEW: Auto-slide logic for the logo carousel ---
+  // Auto-slide logic for the logo carousel
   useEffect(() => {
     const logoInterval = setInterval(() => {
       setCurrentLogoSlide((prev) =>
         prev >= logoSlides.length - itemsToShow ? 0 : prev + 1,
       );
-    }, 3000); // 3000ms = 3 seconds per slide
+    }, 3000);
 
-    return () => clearInterval(logoInterval); // Cleanup interval on unmount
+    return () => clearInterval(logoInterval);
   }, [itemsToShow]);
 
-  // --- Tracking Logic for WhatsApp Clicks ---
-  const handleWhatsAppClick = () => {
-    // We removed e.preventDefault() so the <a> tag naturally opens the WhatsApp link
+  // ✅ Updated Tracking Logic & Navigation
+  const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // Stop default link behavior
+
     if (typeof window !== "undefined") {
       const win = window as Window & {
         fbq?: (action: string, eventName: string) => void;
@@ -115,6 +119,8 @@ function Landing() {
         win.fbq("track", "Lead");
       }
     }
+
+    navigate("/form"); // Redirect to the form
   };
 
   // Scroll animation logic for roadmap boxes
@@ -162,14 +168,13 @@ function Landing() {
               src={desktopImg}
               fetchPriority="high"
             />
+            {/* ✅ Updated Link */}
             <a
-              href="https://wa.me/447412812865"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/form"
               onClick={handleWhatsAppClick}
               className="absolute hidden md:block cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
               style={{ top: "80%", left: "1.7%", width: "35%", height: "13%" }}
-              aria-label="Contact on WhatsApp"
+              aria-label="Go to Form"
             ></a>
 
             <img
@@ -178,19 +183,18 @@ function Landing() {
               src={mobileImg}
               fetchPriority="high"
             />
+            {/* ✅ Updated Link */}
             <a
-              href="https://wa.me/447412812865"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/form"
               onClick={handleWhatsAppClick}
               className="absolute block md:hidden cursor-pointer z-30 bg-transparent hover:bg-white/10 transition-colors rounded-2xl"
               style={{ top: "42%", left: "15%", width: "70%", height: "9%" }}
-              aria-label="Contact on WhatsApp"
+              aria-label="Go to Form"
             ></a>
           </div>
         </section>
 
-        {/* --- PARTNERS / LOGO CAROUSEL SECTION (WITH ARROWS) --- */}
+        {/* --- PARTNERS / LOGO CAROUSEL SECTION --- */}
         <section className="container mx-auto px-4 sm:px-6 pt-12 sm:pt-16 relative z-20">
           <div className="text-center mb-8 sm:mb-12">
             <h3 className="text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest">
@@ -245,7 +249,7 @@ function Landing() {
           </div>
         </section>
 
-        {/* --- MLM FEATURES CARD SECTION --- */}
+        {/* --- MARKETING FEATURES CARD SECTION --- */}
         <section className="container mx-auto px-4 sm:px-6 pt-12 pb-16 relative z-20">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 font-display text-white tracking-tight">
@@ -282,7 +286,6 @@ function Landing() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.15),transparent_50%)]"></div>
 
             <div className="relative z-10 p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-              {/* Text Content */}
               <div className="w-full flex-1 text-center lg:text-left overflow-hidden">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black mb-3 md:mb-4 text-white leading-tight whitespace-normal md:whitespace-nowrap">
                   Get More Info With Your{" "}
@@ -295,7 +298,6 @@ function Landing() {
                 </p>
               </div>
 
-              {/* Centered Arrow Container (Hidden on mobile) */}
               <div className="hidden lg:flex flex-shrink-0 items-center justify-center px-4">
                 <img
                   src={arrow}
@@ -305,12 +307,10 @@ function Landing() {
                 />
               </div>
 
-              {/* CTA BUTTON AREA */}
               <div className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end mt-2 lg:mt-0">
+                {/* ✅ Updated Link */}
                 <a
-                  href="https://wa.me/447412812865"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/form"
                   onClick={handleWhatsAppClick}
                   className="relative w-full sm:w-auto cursor-pointer group block"
                 >
