@@ -100,9 +100,6 @@ const LeadsList = () => {
                       Mobile Number
                     </th>
                     <th className="p-4 border-b border-teal-500/20">
-                      Investment
-                    </th>
-                    <th className="p-4 border-b border-teal-500/20">
                       Date & Time
                     </th>
                   </tr>
@@ -133,11 +130,6 @@ const LeadsList = () => {
                         >
                           {copiedId === lead.id ? "Copied!" : "Copy"}
                         </button>
-                      </td>
-                      <td className="p-4 text-emerald-400 font-mono">
-                        {lead.investment && lead.investment !== "Not Provided"
-                          ? `₹${lead.investment}`
-                          : "N/A"}
                       </td>
                       <td className="p-4 text-sm text-slate-400">
                         {formatDateTime(lead.createdAt)}
@@ -181,15 +173,6 @@ const LeadsList = () => {
                     >
                       {copiedId === lead.id ? "Copied!" : "Copy"}
                     </button>
-                  </div>
-
-                  <div className="mt-4 text-sm text-slate-400 border-t border-teal-500/20 pt-3 flex justify-between">
-                    <span>Investment:</span>
-                    <span className="text-emerald-400 font-mono font-bold text-base">
-                      {lead.investment && lead.investment !== "Not Provided"
-                        ? `₹${lead.investment}`
-                        : "N/A"}
-                    </span>
                   </div>
                 </div>
               ))}

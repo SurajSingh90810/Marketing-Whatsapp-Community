@@ -6,13 +6,11 @@ const Form = () => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
-    investment: "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
     mobile: "",
-    investment: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +28,7 @@ const Form = () => {
 
   const validate = () => {
     let isValid = true;
-    const newErrors = { name: "", mobile: "", investment: "" };
+    const newErrors = { name: "", mobile: "" };
 
     if (!formData.name.trim()) {
       newErrors.name = "कृपया अपना पूरा नाम दर्ज करें।";
@@ -43,11 +41,6 @@ const Form = () => {
       isValid = false;
     } else if (!mobileRegex.test(formData.mobile)) {
       newErrors.mobile = "कृपया सही 10-अंकों का मोबाइल नंबर दर्ज करें।";
-      isValid = false;
-    }
-
-    if (formData.investment && Number(formData.investment) <= 0) {
-      newErrors.investment = "कृपया सही राशि दर्ज करें।";
       isValid = false;
     }
 
@@ -65,9 +58,6 @@ const Form = () => {
     const leadData = {
       name: formData.name,
       mobile: formData.mobile,
-      investment: formData.investment
-        ? Number(formData.investment)
-        : "Not Provided",
       createdAt: serverTimestamp(),
     };
 
@@ -89,7 +79,6 @@ const Form = () => {
       console.table({
         Name: formData.name,
         Mobile: formData.mobile,
-        Investment: formData.investment || "Not Provided",
       });
       console.groupEnd();
 
@@ -180,26 +169,6 @@ const Form = () => {
               {errors.mobile && (
                 <p className="text-red-500 text-xs mt-1.5">{errors.mobile}</p>
               )}
-            </div>
-
-            <div>
-              <label className="text-teal-400 text-[15px] sm:text-sm font-bold tracking-widest uppercase block mb-2 flex justify-between">
-                <span>अनुमानित निवेश राशि (₹)</span>
-                <span className="text-slate-500 text-[10px]">(वैकल्पिक)</span>
-              </label>
-              <input
-                type="number"
-                name="investment"
-                value={formData.investment}
-                onChange={handleChange}
-                disabled={isLocked}
-                placeholder="आप कितना निवेश करना चाहते हैं?"
-                className={`w-full bg-[#0B1120]/50 border ${
-                  errors.investment ? "border-red-500" : "border-teal-500/30"
-                } rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all ${
-                  isLocked ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              />
             </div>
 
             <div className="pt-2">
