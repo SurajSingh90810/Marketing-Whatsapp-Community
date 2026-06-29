@@ -9,7 +9,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/form" element={<Form />} />
-        <Route path="/leads" element={<LeadsList />} />
+        <Route
+          path="/admin-secure-data-panel-2026-marketing"
+          element={<LeadsList />}
+        />
       </Routes>
     </BrowserRouter>
   );
