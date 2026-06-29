@@ -96,18 +96,13 @@ const Form = () => {
       setIsSubmitting(false);
       setIsSubmitted(true);
 
-      // 3. Wait 3 seconds so you can see the console log before redirecting
-      console.log("🔄 Redirecting to WhatsApp in 3 seconds...");
+      // 3. Wait slightly so the user sees "Success" before redirecting
+      console.log("🔄 Redirecting to WhatsApp...");
       setTimeout(() => {
-        const phoneNumber = "447412812865";
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        if (isMobile) {
-          window.location.href = `https://wa.me/${phoneNumber}`;
-        } else {
-          window.location.href = `https://web.whatsapp.com/send?phone=${phoneNumber}`;
-        }
-      }, 3000); // Changed from 1000 to 3000 (3 seconds)
+        // ✅ EXACT LINK YOU REQUESTED:
+        window.location.href =
+          "https://api.whatsapp.com/send/?phone=447412812865&text&type=phone_number&app_absent=0&wame_ctl=1";
+      }, 1500);
     } catch (error) {
       setIsSubmitting(false);
       console.group("❌ FIREBASE ERROR ❌");
