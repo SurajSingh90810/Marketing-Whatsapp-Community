@@ -35,7 +35,7 @@ const Form = () => {
       isValid = false;
     }
 
-    const mobileRegex = /^[0-9]{12}$/;
+    const mobileRegex = /^[0-9]{10,12}$/;
     if (!formData.mobile) {
       newErrors.mobile = "मोबाइल नंबर दर्ज करना आवश्यक है।";
       isValid = false;
@@ -103,8 +103,8 @@ const Form = () => {
   };
 
   const isLocked = isSubmitting || isSubmitted;
-  const isFormIncomplete =
-    !formData.name.trim() || formData.mobile.length !== 12;
+  const isFormIncomplete = !formData.name.trim() || formData.mobile.length < 10;
+
   const isButtonDisabled = isLocked || isFormIncomplete;
 
   return (
