@@ -244,7 +244,7 @@ function Landing() {
               </div>
 
               {/* Dynamic Responsive Arrow */}
-              <div className="flex flex-shrink-0 items-center justify-center">
+              <div className="flex flex-shrink-0 items-center justify-center ">
                 <img
                   src={arrow}
                   alt="Arrow Direction"
