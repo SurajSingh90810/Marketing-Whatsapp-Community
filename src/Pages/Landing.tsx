@@ -159,10 +159,10 @@ function Landing() {
           </div>
 
           <div className="relative max-w-5xl mx-auto">
-            {/* Center Vertical Line */}
-            <div className="absolute left-[28px] sm:left-[40px] md:left-1/2 top-4 bottom-4 w-[1px] bg-[#152417] md:-translate-x-1/2 z-0"></div>
+            {/* Center Vertical Line (Always Centered now on Mobile & Desktop) */}
+            <div className="absolute left-1/2 top-4 bottom-4 w-[1px] bg-[#152417] -translate-x-1/2 z-0"></div>
 
-            <div className="flex flex-col gap-8 sm:gap-10 md:gap-20 w-full">
+            <div className="flex flex-col gap-16 md:gap-20 w-full mt-6 md:mt-0">
               {roadmapData.map((item, index) => {
                 const isEven = index % 2 === 0;
                 const isGold = item.theme === "gold";
@@ -170,16 +170,16 @@ function Landing() {
                 return (
                   <div
                     key={index}
-                    className={`relative flex flex-col items-start md:items-center w-full reveal-on-scroll opacity-0 translate-y-16 transition-all duration-700 ease-out 
+                    className={`relative flex flex-col items-center w-full reveal-on-scroll opacity-0 translate-y-16 transition-all duration-700 ease-out 
                     ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
                   >
-                    {/* Timeline Icon */}
+                    {/* Timeline Icon - Centered directly on Mobile, positioned perfectly on Desktop */}
                     <div
-                      className={`absolute left-[28px] sm:left-[40px] md:left-1/2 top-[24px] md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-[#080d09] flex items-center justify-center border z-10 transition-all duration-300
+                      className={`absolute left-1/2 top-0 md:top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#080d09] flex items-center justify-center border z-20 transition-all duration-300
                         ${
                           isGold
-                            ? "border-yellow-500/40 text-yellow-500"
-                            : "border-green-500/40 text-green-500"
+                            ? "border-yellow-500/40 text-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.15)]"
+                            : "border-green-500/40 text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.15)]"
                         }`}
                     >
                       {item.icon}
@@ -187,12 +187,12 @@ function Landing() {
 
                     {/* Content Side Wrapper */}
                     <div
-                      className={`w-full md:w-1/2 flex pl-[64px] sm:pl-[90px] md:pl-0 
+                      className={`w-full md:w-1/2 flex justify-center pt-10 md:pt-0 relative z-10
                       ${isEven ? "md:justify-end md:pr-12 lg:pr-16" : "md:justify-start md:pl-12 lg:pl-16"}`}
                     >
-                      {/* Card Content */}
+                      {/* Card Content - Centered text on mobile, left/right aligned on desktop */}
                       <div
-                        className={`w-full max-w-[420px] rounded-2xl bg-[#0a120c] border border-[#152417] p-5 sm:p-6 md:p-8 flex flex-col transition-colors duration-300
+                        className={`w-full max-w-[420px] rounded-2xl bg-[#0a120c] border border-[#152417] p-5 sm:p-6 md:p-8 flex flex-col items-center text-center transition-colors duration-300
                           ${isEven ? "md:items-end md:text-right" : "md:items-start md:text-left"}
                           ${
                             isGold
@@ -226,11 +226,12 @@ function Landing() {
 
         {/* CTA Section */}
         <section className="container mx-auto pb-16 sm:pb-24 md:pb-32 px-4 sm:px-6 relative z-20">
-          <div className="relative rounded-2xl sm:rounded-[2rem] overflow-hidden bg-[#0a120c] border border-[#152417] shadow-lg transition-colors duration-500 hover:border-green-500/30">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.05),transparent_60%)]"></div>
+          <div className="relative rounded-2xl sm:rounded-[2rem] overflow-hidden bg-[#0a120c] border border-[#152417] shadow-2xl transition-colors duration-500 hover:border-green-500/30 group/cta">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.08),transparent_60%)]"></div>
 
-            <div className="relative z-10 p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-12">
-              <div className="w-full flex-1 text-center lg:text-left overflow-hidden">
+            <div className="relative z-10 p-8 sm:p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-10">
+              {/* Text Area */}
+              <div className="w-full flex-1 text-center md:text-left overflow-hidden">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 md:mb-4 text-white leading-tight">
                   Get More Info With Your{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-500 block sm:inline mt-1 sm:mt-0">
@@ -238,20 +239,22 @@ function Landing() {
                   </span>
                 </h2>
                 <p className="text-slate-400 text-xs sm:text-sm md:text-base font-light">
-                  Access our site for complete insights.
+                  Access our site for complete insights and premium tools.
                 </p>
               </div>
 
-              <div className="hidden lg:flex flex-shrink-0 items-center justify-center px-4">
+              {/* Dynamic Responsive Arrow */}
+              <div className="flex flex-shrink-0 items-center justify-center">
                 <img
                   src={arrow}
                   alt="Arrow Direction"
-                  className="w-16 xl:w-28 h-auto opacity-50 invert animate-pulse"
+                  className="w-18 sm:w-16 md:w-20 lg:w-28 h-auto opacity-40 invert group-hover/cta:opacity-70 group-hover/cta:animate-pulse transition-opacity duration-300 rotate-90 md:rotate-0"
                   loading="lazy"
                 />
               </div>
 
-              <div className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end mt-4 lg:mt-0">
+              {/* Advanced Contact Button */}
+              <div className="w-full md:w-auto flex-shrink-0 flex justify-center mt-2 md:mt-0 relative z-20">
                 <a
                   href={whatsappLink}
                   target="_blank"
@@ -260,9 +263,16 @@ function Landing() {
                   className="relative w-full sm:w-auto cursor-pointer group block"
                   style={{ WebkitTapHighlightColor: "transparent" }}
                 >
-                  <div className="relative z-10 w-full sm:w-auto bg-[#16a34a] text-white hover:bg-[#15803d] px-6 sm:px-10 py-3 sm:py-4 md:py-5 rounded-xl flex items-center justify-center gap-2 sm:gap-3 transition-transform transform group-hover:scale-[1.02] active:scale-95 overflow-hidden">
-                    <Fingerprint className="text-xl md:text-3xl w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 shrink-0 relative z-10" />
-                    <span className="text-[15px] sm:text-[16px] md:text-lg font-semibold tracking-wide whitespace-nowrap relative z-10 leading-tight text-white">
+                  {/* Glowing Background Blur */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500 to-yellow-600 rounded-2xl blur opacity-25 group-hover:opacity-70 transition duration-500"></div>
+
+                  {/* Inner Styled Button */}
+                  <div className="relative w-full sm:w-auto bg-[#080d09] border border-green-500/40 px-6 sm:px-10 py-3 sm:py-4 md:py-5 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 group-hover:border-green-400 group-hover:shadow-[inset_0_0_20px_rgba(34,197,94,0.15)] group-active:scale-95 overflow-hidden">
+                    {/* Subtle internal shine effect */}
+                    <div className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg] group-hover:animate-[shine_1.5s_ease-in-out_infinite]"></div>
+
+                    <Fingerprint className="text-green-500 group-hover:text-yellow-400 transition-colors duration-300 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 shrink-0 z-10" />
+                    <span className="text-[15px] sm:text-[16px] md:text-lg font-bold tracking-wide text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-green-200 transition-all z-10">
                       Contact Us
                     </span>
                   </div>
@@ -292,6 +302,19 @@ function Landing() {
           </p>
         </div>
       </footer>
+
+      {/* Optional Custom Keyframes required for the button shine */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @keyframes shine {
+          100% {
+            left: 200%;
+          }
+        }
+      `,
+        }}
+      />
     </div>
   );
 }
