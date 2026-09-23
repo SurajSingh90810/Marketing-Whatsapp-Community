@@ -1,129 +1,57 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Imported useNavigate
-import {
-  Network,
-  Banknote,
-  Wallet,
-  LayoutDashboard,
-  UserCog,
-  Globe,
-  Fingerprint,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { useEffect } from "react";
+import { Network, Banknote, Wallet, Fingerprint } from "lucide-react";
 
 // 1. Import your images from the assets folder here:
 import desktopImg from "../assets/desktop.png";
 import mobileImg from "../assets/mobile.png";
 import arrow from "../assets/arrow.webp";
 
-import logo1 from "../assets/19.png";
-import logo2 from "../assets/20.png";
-import logo3 from "../assets/21.png";
-import logo4 from "../assets/22.png";
-import logo5 from "../assets/23.png";
+declare global {
+  interface Window {
+    fbq?: (event: string, eventName: string, ...args: unknown[]) => void;
+  }
+}
 
-const logoSlides = [logo1, logo2, logo3, logo4, logo5];
-
-// MLM Features Data
-const mlmFeatures = [
+// Updated Features / Roadmap Data matching the GreenGold theme
+const roadmapData = [
   {
-    title: "स्ट्रेटेजिक मार्केटिंग प्लानिंग",
+    phase: "PHASE 01",
+    title: "Community Foundation",
     description:
-      "आपके बिज़नेस की ग्रोथ और लक्ष्यों को हासिल करने के लिए एक डेटा-आधारित और कस्टमाइज़्ड मार्केटिंग रणनीति तैयार करना।",
-    icon: <Network className="w-8 h-8" />,
+      "Foster a high-trust community environment where valuable, verified insights are shared instantly among members.",
+    icon: <Network className="w-5 h-5 md:w-6 md:h-6" />,
+    theme: "green",
   },
   {
-    title: "टार्गेटेड एडवरटाइजिंग",
+    phase: "PHASE 02",
+    title: "Informed Intelligence",
     description:
-      "सही ऑडियंस (ग्राहकों) तक सही समय पर विज्ञापन पहुँचाकर आपके बिज़नेस के लिए बेहतरीन ROI (रिटर्न ऑन इन्वेस्टमेंट) सुनिश्चित करना।",
-    icon: <Banknote className="w-8 h-8" />,
+      "Access a robust, unified data platform that analyzes key market signals and provides clear information to support safer decisions.",
+    icon: <Banknote className="w-5 h-5 md:w-6 md:h-6" />,
+    theme: "gold",
   },
   {
-    title: "सोशल मीडिया मैनेजमेंट",
+    phase: "PHASE 03",
+    title: "Ecosystem Sustainability",
     description:
-      "विभिन्न सोशल मीडिया प्लेटफॉर्म्स पर आपके ब्रांड की online प्रेजेंस को मजबूत करना और कस्टमर एंगेजमेंट बढ़ाना।",
-    icon: <Wallet className="w-8 h-8" />,
-  },
-  {
-    title: "एसईओ और कंटेंट क्रिएशन",
-    description:
-      "वैल्युएबल कंटेंट और सर्च इंजन ऑप्टिमाइजेशन (SEO) तकनीक के जरिए गूगल पर आपकी वेबसाइट की रैंकिंग और ऑर्गेनिक ट्रैफिक बढ़ाना।",
-    icon: <LayoutDashboard className="w-8 h-8" />,
-  },
-  {
-    title: "डेटा एनालिटिक्स और रिपोर्टिंग",
-    description:
-      "सभी मार्केटिंग कैंपेन्स की परफॉरमेंस को ट्रैक करना और डेटा के आधार पर पारदर्शी (Transparent) रिजल्ट्स की रिपोर्ट देना।",
-    icon: <UserCog className="w-8 h-8" />,
-  },
-  {
-    title: "ब्रांड डेवलपमेंट",
-    description:
-      "आपके बिज़नेस को एक यूनीक पहचान देना ताकि वह मार्केट में एक भरोसेमंद और जाना-माना ब्रांड बन सके।",
-    icon: <Globe className="w-8 h-8" />,
+      "Collaborate on tools and strategies designed for balanced and sustainable portfolio management, enhancing the value of the shared ecosystem for all members.",
+    icon: <Wallet className="w-5 h-5 md:w-6 md:h-6" />,
+    theme: "green",
   },
 ];
 
 function Landing() {
-  const navigate = useNavigate(); // ✅ Initialize navigation
+  const whatsappLink = "https://wa.me/6355976841"; // <-- Replace with your actual WhatsApp number
 
-  // --- Logo Carousel State & Logic ---
-  const [currentLogoSlide, setCurrentLogoSlide] = useState(0);
-  const [itemsToShow, setItemsToShow] = useState(2);
-
-  // Handle Responsive layout for Logo Carousel
-  useEffect(() => {
-    const handleResize = () => {
-      setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Navigation Handlers for Arrows
-  const nextSlide = () => {
-    setCurrentLogoSlide((prev) =>
-      prev >= logoSlides.length - itemsToShow ? 0 : prev + 1,
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentLogoSlide((prev) =>
-      prev <= 0 ? logoSlides.length - itemsToShow : prev - 1,
-    );
-  };
-
-  // Auto-slide logic for the logo carousel
-  useEffect(() => {
-    const logoInterval = setInterval(() => {
-      setCurrentLogoSlide((prev) =>
-        prev >= logoSlides.length - itemsToShow ? 0 : prev + 1,
-      );
-    }, 3000);
-
-    return () => clearInterval(logoInterval);
-  }, [itemsToShow]);
-
-  // ✅ Updated Tracking Logic & Navigation
-  const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // Stop default link behavior
-
+  const handleWhatsAppClick = () => {
     if (typeof window !== "undefined") {
-      const win = window as Window & {
-        fbq?: (action: string, eventName: string) => void;
-      };
-
+      const win = window;
       if (win.fbq) {
         win.fbq("track", "Lead");
       }
     }
-
-    navigate("/form"); // Redirect to the form
   };
 
-  // Scroll animation logic for roadmap boxes
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -151,150 +79,166 @@ function Landing() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#0B1120] relative overflow-hidden">
+    <div className="w-full min-h-screen bg-[#050806] relative overflow-x-hidden font-sans">
       {/* Background Elements */}
-      <div className="fixed inset-0 grid-bg pointer-events-none opacity-20 z-0"></div>
-      <div className="fixed top-[-10%] left-[-10%] w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-teal-500/20 blur-[120px] md:blur-[150px] rounded-full pointer-events-none z-0"></div>
-      <div className="fixed bottom-[-5%] right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-cyan-600/10 blur-[100px] md:blur-[130px] rounded-full pointer-events-none z-0"></div>
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.02] z-0"
+        style={{
+          backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      ></div>
 
-      {/* Main Container */}
-      <main className="relative z-10 overflow-x-hidden bg-transparent">
+      {/* Ambient Glows */}
+      <div className="fixed top-[-10%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-green-500/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
+      <div className="fixed bottom-[-10%] right-[-5%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] bg-yellow-500/5 blur-[100px] rounded-full pointer-events-none z-0"></div>
+
+      <main className="relative z-10 overflow-x-hidden bg-transparent w-full">
         {/* Hero Section */}
-        <section className="w-full">
-          <div className="relative w-full flex flex-col items-center overflow-hidden">
-            <img
-              alt="Hero Image Desktop"
-              className="w-full h-auto object-cover hidden md:block"
-              src={desktopImg}
-              fetchPriority="high"
-            />
-            {/* ✅ Updated Link (Added active:bg-white/20 for explicit click feedback) */}
-            <a
-              href="/form"
-              onClick={handleWhatsAppClick}
-              className="absolute hidden md:block cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/20 transition-colors duration-200 rounded-2xl"
-              style={{ top: "79%", left: "1.7%", width: "31%", height: "11%" }}
-              aria-label="Contact on WhatsApp"
-            ></a>
-
-            <img
-              alt="Hero Image Mobile"
-              className="w-full h-auto object-cover block md:hidden"
-              src={mobileImg}
-              fetchPriority="high"
-            />
-            {/* ✅ Updated Link (Added active:bg-white/30 and removed default mobile tap highlight for clear white flash effect) */}
-            <a
-              href="/form"
-              onClick={handleWhatsAppClick}
-              className="absolute block md:hidden cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/30 transition-colors duration-200 rounded-2xl"
-              style={{ top: "33%", left: "22%", width: "56%", height: "8%" }}
-              aria-label="Go to Form"
-            ></a>
-          </div>
-        </section>
-
-        {/* --- PARTNERS / LOGO CAROUSEL SECTION --- */}
-        <section className="container mx-auto px-4 sm:px-6 pt-12 sm:pt-16 relative z-20">
-          <div className="text-center mb-8 sm:mb-12">
-            <h3 className="text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest">
-              Featured In & Trusted By
-            </h3>
-          </div>
-
-          <div className="max-w-6xl mx-auto relative px-6 sm:px-12">
-            <button
-              onClick={prevSlide}
-              className="absolute -left-2 sm:left-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
-              aria-label="Previous Slide"
-            >
-              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 transition-transform group-hover:-translate-x-0.5" />
-            </button>
-
-            <div className="overflow-hidden w-full">
-              <div
-                className="flex transition-transform duration-700 ease-in-out"
+        <section className="w-full flex justify-center bg-[#050806]">
+          <div className="relative w-full max-w-full leading-none text-[0]">
+            {/* Desktop Hero */}
+            <div className="hidden md:block relative w-full">
+              <img
+                alt="Hero Image Desktop"
+                className="w-full h-auto object-cover"
+                src={desktopImg}
+                fetchPriority="high"
+              />
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleWhatsAppClick}
+                className="absolute cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/20 transition-colors duration-200 rounded-2xl"
                 style={{
-                  transform: `translateX(-${
-                    currentLogoSlide * (100 / itemsToShow)
-                  }%)`,
+                  top: "83%",
+                  left: "1.7%",
+                  width: "24%",
+                  height: "11%",
                 }}
-              >
-                {logoSlides.map((logo, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 px-2 sm:px-4"
-                    style={{ width: `${100 / itemsToShow}%` }}
-                  >
-                    <div className="bg-white rounded-2xl p-2 sm:p-5 lg:p-8 flex items-center justify-center h-28 sm:h-40 md:h-48 lg:h-56 shadow-[0_4px_20px_rgba(255,255,255,0.05)] hover:shadow-[0_4px_20px_rgba(45,212,191,0.3)] transition-shadow duration-300">
-                      <img
-                        src={logo}
-                        alt={`Partner ${index + 1}`}
-                        className="max-w-full max-h-full object-contain"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+                aria-label="Contact on WhatsApp"
+              ></a>
             </div>
 
-            <button
-              onClick={nextSlide}
-              className="absolute -right-2 sm:right-0 top-1/2 -translate-y-1/2 z-30 bg-slate-800/80 hover:bg-teal-500 text-teal-400 hover:text-slate-900 p-1.5 sm:p-2 rounded-full border border-teal-500/30 hover:border-teal-400 transition-all duration-300 shadow-md backdrop-blur-sm group"
-              aria-label="Next Slide"
-            >
-              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 transition-transform group-hover:translate-x-0.5" />
-            </button>
+            {/* Mobile Hero */}
+            <div className="block md:hidden relative w-full">
+              <img
+                alt="Hero Image Mobile"
+                className="w-full h-auto object-cover"
+                src={mobileImg}
+                fetchPriority="high"
+              />
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleWhatsAppClick}
+                className="absolute cursor-pointer z-30 bg-transparent hover:bg-white/10 active:bg-white/30 transition-colors duration-200 rounded-xl"
+                style={{ top: "46%", left: "8%", width: "48%", height: "7%" }}
+                aria-label="Go to WhatsApp"
+              ></a>
+            </div>
           </div>
         </section>
 
-        {/* --- MARKETING FEATURES CARD SECTION --- */}
-        <section className="container mx-auto px-4 sm:px-6 pt-12 pb-16 relative z-20">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 font-display text-white tracking-tight">
-              मार्केटिंग{" "}
-              <span className="text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]">
-                फीचर्स
-              </span>
+        {/* --- STRATEGIC ROADMAP TIMELINE SECTION --- */}
+        <section className="container mx-auto px-4 sm:px-6 pt-16 md:pt-24 pb-20 md:pb-24 relative z-20">
+          <div className="text-center mb-12 md:mb-24 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-3 sm:mb-4 text-white tracking-tight">
+              Strategic{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600">
+                Roadmap
+              </span>{" "}
+              2026
             </h2>
+            <p className="text-slate-400 text-xs sm:text-base px-2">
+              Our trajectory towards becoming the premier intelligence hub in
+              the ecosystem.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
-            {mlmFeatures.map((feature, index) => (
-              <div
-                key={index}
-                className="glass p-6 sm:p-8 rounded-[24px] border border-teal-500/20 hover:border-teal-400 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_30px_rgba(45,212,191,0.15)] bg-[#0f172a]/60 backdrop-blur-xl flex flex-col items-center text-center group"
-              >
-                <div className="bg-teal-500/10 p-4 rounded-2xl text-teal-400 mb-5 sm:mb-6 group-hover:bg-teal-400 group-hover:text-slate-900 transition-colors duration-300 shadow-[0_0_15px_rgba(45,212,191,0.1)] group-hover:shadow-[0_0_20px_rgba(45,212,191,0.5)] flex items-center justify-center">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 leading-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Center Vertical Line */}
+            <div className="absolute left-[28px] sm:left-[40px] md:left-1/2 top-4 bottom-4 w-[1px] bg-[#152417] md:-translate-x-1/2 z-0"></div>
+
+            <div className="flex flex-col gap-8 sm:gap-10 md:gap-20 w-full">
+              {roadmapData.map((item, index) => {
+                const isEven = index % 2 === 0;
+                const isGold = item.theme === "gold";
+
+                return (
+                  <div
+                    key={index}
+                    className={`relative flex flex-col items-start md:items-center w-full reveal-on-scroll opacity-0 translate-y-16 transition-all duration-700 ease-out 
+                    ${isEven ? "md:flex-row" : "md:flex-row-reverse"}`}
+                  >
+                    {/* Timeline Icon */}
+                    <div
+                      className={`absolute left-[28px] sm:left-[40px] md:left-1/2 top-[24px] md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-[#080d09] flex items-center justify-center border z-10 transition-all duration-300
+                        ${
+                          isGold
+                            ? "border-yellow-500/40 text-yellow-500"
+                            : "border-green-500/40 text-green-500"
+                        }`}
+                    >
+                      {item.icon}
+                    </div>
+
+                    {/* Content Side Wrapper */}
+                    <div
+                      className={`w-full md:w-1/2 flex pl-[64px] sm:pl-[90px] md:pl-0 
+                      ${isEven ? "md:justify-end md:pr-12 lg:pr-16" : "md:justify-start md:pl-12 lg:pl-16"}`}
+                    >
+                      {/* Card Content */}
+                      <div
+                        className={`w-full max-w-[420px] rounded-2xl bg-[#0a120c] border border-[#152417] p-5 sm:p-6 md:p-8 flex flex-col transition-colors duration-300
+                          ${isEven ? "md:items-end md:text-right" : "md:items-start md:text-left"}
+                          ${
+                            isGold
+                              ? "hover:border-yellow-500/30"
+                              : "hover:border-green-500/30"
+                          }`}
+                      >
+                        <span
+                          className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase mb-2 sm:mb-3 
+                            ${isGold ? "text-yellow-500" : "text-green-500"}`}
+                        >
+                          {item.phase}
+                        </span>
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mb-2 sm:mb-4 leading-tight">
+                          {item.title}
+                        </h3>
+                        <p className="text-slate-400 text-xs sm:text-sm md:text-base leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Desktop Empty Spacer */}
+                    <div className="hidden md:block w-1/2"></div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto pt-16 pb-24 sm:pb-32 px-4 sm:px-6 relative z-20">
-          <div className="relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden bg-[#0f172a] border border-teal-500/20 shadow-2xl backdrop-blur-3xl group transition-all duration-500 hover:border-teal-500/50">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.15),transparent_50%)]"></div>
+        <section className="container mx-auto pb-16 sm:pb-24 md:pb-32 px-4 sm:px-6 relative z-20">
+          <div className="relative rounded-2xl sm:rounded-[2rem] overflow-hidden bg-[#0a120c] border border-[#152417] shadow-lg transition-colors duration-500 hover:border-green-500/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,197,94,0.05),transparent_60%)]"></div>
 
-            <div className="relative z-10 p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+            <div className="relative z-10 p-6 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-12">
               <div className="w-full flex-1 text-center lg:text-left overflow-hidden">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black mb-3 md:mb-4 text-white leading-tight whitespace-normal md:whitespace-nowrap">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 md:mb-4 text-white leading-tight">
                   Get More Info With Your{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-300 block sm:inline mt-1 sm:mt-0">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-yellow-500 block sm:inline mt-1 sm:mt-0">
                     Growth!
                   </span>
                 </h2>
-                <p className="text-slate-400 text-sm sm:text-base font-light italic">
-                  "Then access our site for complete insights."
+                <p className="text-slate-400 text-xs sm:text-sm md:text-base font-light">
+                  Access our site for complete insights.
                 </p>
               </div>
 
@@ -302,26 +246,24 @@ function Landing() {
                 <img
                   src={arrow}
                   alt="Arrow Direction"
-                  className="w-24 xl:w-32 h-auto opacity-70 invert drop-shadow-[0_0_15px_rgba(45,212,191,0.4)] animate-arrow-flow"
+                  className="w-16 xl:w-28 h-auto opacity-50 invert animate-pulse"
                   loading="lazy"
                 />
               </div>
 
-              <div className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end mt-2 lg:mt-0">
-                {/* ✅ Updated Link */}
+              <div className="w-full lg:w-auto flex-shrink-0 flex justify-center lg:justify-end mt-4 lg:mt-0">
                 <a
-                  href="/form"
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={handleWhatsAppClick}
                   className="relative w-full sm:w-auto cursor-pointer group block"
                   style={{ WebkitTapHighlightColor: "transparent" }}
                 >
-                  <div className="absolute -inset-5 z-0 rounded-[2rem]"></div>
-                  <div className="relative z-10 w-full sm:w-auto bg-teal-500 text-white hover:bg-teal-400 px-6 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all transform group-hover:scale-[1.03] active:scale-95 overflow-hidden pointer-events-none">
-                    {/* ✅ Added `group-active` so the shine triggers on mobile tap too */}
-                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full group-active:translate-x-full transition-transform duration-1000 ease-in-out z-0"></div>
-                    <Fingerprint className="text-2xl md:text-3xl w-6 h-6 sm:w-8 sm:h-8 shrink-0 group-hover:-rotate-12 transition-transform relative z-10" />
-                    <span className="text-[14px] sm:text-[16px] md:text-lg font-bold uppercase tracking-wider whitespace-nowrap relative z-10 leading-tight">
-                      Whatsapp Channel
+                  <div className="relative z-10 w-full sm:w-auto bg-[#16a34a] text-white hover:bg-[#15803d] px-6 sm:px-10 py-3 sm:py-4 md:py-5 rounded-xl flex items-center justify-center gap-2 sm:gap-3 transition-transform transform group-hover:scale-[1.02] active:scale-95 overflow-hidden">
+                    <Fingerprint className="text-xl md:text-3xl w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 shrink-0 relative z-10" />
+                    <span className="text-[15px] sm:text-[16px] md:text-lg font-semibold tracking-wide whitespace-nowrap relative z-10 leading-tight text-white">
+                      Contact Us
                     </span>
                   </div>
                 </a>
@@ -332,20 +274,20 @@ function Landing() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-teal-500/20 py-6 md:py-8 bg-[#0B1120]/90 backdrop-blur-md relative z-10">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
-          <div className="flex flex-wrap justify-center items-center gap-6 text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase">
-            <a className="hover:text-teal-400 transition-colors" href="#">
+      <footer className="border-t border-[#152417] py-6 md:py-8 bg-[#050806]/90 backdrop-blur-md relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
+          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-[10px] sm:text-xs font-semibold text-slate-500 tracking-widest uppercase">
+            <a className="hover:text-green-500 transition-colors" href="#">
               Privacy
             </a>
-            <a className="hover:text-teal-400 transition-colors" href="#">
+            <a className="hover:text-green-500 transition-colors" href="#">
               Terms
             </a>
-            <a className="hover:text-teal-400 transition-colors" href="#">
+            <a className="hover:text-green-500 transition-colors" href="#">
               Contact
             </a>
           </div>
-          <p className="text-slate-600 text-[10px] md:text-sm text-center">
+          <p className="text-slate-600 text-[10px] sm:text-xs md:text-sm text-center">
             Copyright © 2026 All Rights Reserved.
           </p>
         </div>
