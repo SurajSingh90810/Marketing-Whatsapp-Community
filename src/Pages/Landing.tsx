@@ -244,16 +244,16 @@ function Landing() {
               </div>
 
               {/* Dynamic Responsive Arrow */}
-              <div className="flex flex-shrink-0 items-center justify-center ">
+              <div className="flex flex-shrink-0 items-center justify-center px-4 my-2 md:my-0">
                 <img
                   src={arrow}
                   alt="Arrow Direction"
-                  className="w-18 sm:w-16 md:w-20 lg:w-28 h-auto opacity-40 invert group-hover/cta:opacity-70 group-hover/cta:animate-pulse transition-opacity duration-300 rotate-90 md:rotate-0"
+                  className="w-12 sm:w-16 md:w-20 lg:w-24 h-auto opacity-40 invert group-hover/cta:opacity-70 group-hover/cta:animate-pulse transition-opacity duration-300 rotate-90 md:rotate-0"
                   loading="lazy"
                 />
               </div>
 
-              {/* Advanced Contact Button */}
+              {/* Advanced Green Contact Button */}
               <div className="w-full md:w-auto flex-shrink-0 flex justify-center mt-2 md:mt-0 relative z-20">
                 <a
                   href={whatsappLink}
@@ -264,15 +264,15 @@ function Landing() {
                   style={{ WebkitTapHighlightColor: "transparent" }}
                 >
                   {/* Glowing Background Blur */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500 to-yellow-600 rounded-2xl blur opacity-25 group-hover:opacity-70 transition duration-500"></div>
+                  <div className="absolute -inset-1 bg-green-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
 
-                  {/* Inner Styled Button */}
-                  <div className="relative w-full sm:w-auto bg-[#080d09] border border-green-500/40 px-6 sm:px-10 py-3 sm:py-4 md:py-5 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 group-hover:border-green-400 group-hover:shadow-[inset_0_0_20px_rgba(34,197,94,0.15)] group-active:scale-95 overflow-hidden">
+                  {/* Inner Styled Green Button */}
+                  <div className="relative w-full sm:w-auto bg-gradient-to-r from-green-600 to-[#16a34a] border border-green-400/50 px-6 sm:px-10 py-3 sm:py-4 md:py-5 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 group-hover:from-green-500 group-hover:to-green-400 group-hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] group-active:scale-95 overflow-hidden">
                     {/* Subtle internal shine effect */}
-                    <div className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg] group-hover:animate-[shine_1.5s_ease-in-out_infinite]"></div>
+                    <div className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] group-hover:animate-[shine_1.5s_ease-in-out_infinite]"></div>
 
-                    <Fingerprint className="text-green-500 group-hover:text-yellow-400 transition-colors duration-300 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 shrink-0 z-10" />
-                    <span className="text-[15px] sm:text-[16px] md:text-lg font-bold tracking-wide text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-green-200 transition-all z-10">
+                    <Fingerprint className="text-white group-hover:scale-110 transition-transform duration-300 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 shrink-0 z-10" />
+                    <span className="text-[15px] sm:text-[16px] md:text-lg font-bold tracking-wide text-white transition-all z-10 drop-shadow-sm">
                       Contact Us
                     </span>
                   </div>
